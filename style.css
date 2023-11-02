@@ -40,7 +40,7 @@ body {
 canvas{
   display: inline-block;
 }
-.container_canvas{
+#app{
   display: flex;
 }
 .container_settings{
@@ -66,3 +66,20 @@ canvas{
 
 }
 
+@media screen and (max-width: 460px) {
+  
+  canvas {
+    width: 250px;
+  }
+
+  #app {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .container_settings {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+}
