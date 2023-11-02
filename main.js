@@ -272,3 +272,78 @@ $button.addEventListener('click', () => {
 })
 
 
+
+let touchStartX = 0;
+let touchStartY = 0;
+let touchEndX = 0;
+let touchEndY = 0;
+
+document.addEventListener('touchstart', (e) => {
+  // Registra las coordenadas del inicio del toque
+  touchStartX = e.touches[0].clientX;
+  touchStartY = e.touches[0].clientY;
+});
+
+document.addEventListener('touchmove', (e) => {
+  // Registra las coordenadas del movimiento del toque
+  touchEndX = e.touches[0].clientX;
+  touchEndY = e.touches[0].clientY;
+
+  // Calcula la diferencia en coordenadas para determinar la dirección del desplazamiento
+  const deltaX = touchEndX - touchStartX;
+  const deltaY = touchEndY - touchStartY;
+
+  if (Math.abs(deltaX) > Math.abs(deltaY)) {
+    // Movimiento horizontal (izquierda o derecha)
+    if (deltaX > 10) { // Puedes ajustar el valor para determinar la sensibilidad del movimiento
+      // Mover pieza hacia la derecha
+      piece.position.x++
+      if(checkCollision()){
+        piece.position.x--
+      }
+    } else if (deltaX < -10) {
+      // Mover pieza hacia la izquierda
+      piece.position.x--
+      if(checkCollision()) {
+        piece.position.x++
+      }
+    }
+  } else {
+    // Movimiento vertical (arriba o abajo)
+    if (deltaY > 0) {
+      piece.position.y++
+      if(checkCollision()) {
+        piece.position.y--
+        solidifyPiece()
+        removeRow()
+      }
+    }
+  }
+
+  // Actualiza las coordenadas de inicio para el siguiente movimiento
+  touchStartX = touchEndX;
+  touchStartY = touchEndY;
+});
+
+
+const $girar = document.querySelector('.girar')
+
+$girar.addEventListener('click',() => {
+  const rotate = []
+      
+  for (let i = 0; i < piece.shape[0].length; i++) {
+    const row = []
+    for (let j = piece.shape.length - 1;j >= 0; j--) {
+      row.push(piece.shape[j][i])
+    }
+
+    rotate.push(row)
+  }
+
+  const previousShape = piece.shape
+  piece.shape = rotate
+  if( checkCollision() ) {
+    piece.shape = previousShape
+  }
+})
+
