@@ -18,6 +18,11 @@
   font-family: 'Courier New', Courier, monospace;
   box-sizing: border-box;
 }
+html, body {
+  overflow: hidden;
+  height: 100%;
+}
+
 
 body {
   margin: 0;
